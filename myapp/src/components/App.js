@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import ResourceList from './ResourceList';
 
 const App = () => {
   const [resource, setResource] = useState('posts');
@@ -14,8 +15,10 @@ const App = () => {
         </button>
 
       </div>
-      {/* setResource will update resource value with its individual values */}
-      {resource}
+      {/* communicate `prop` `resource` down to `ResourceList` 
+            {resource} is string of 'posts' or 'todos' which is component level state
+      */}
+      <ResourceList resource={resource}/>
     </div>
   );
 }
