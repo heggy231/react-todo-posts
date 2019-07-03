@@ -1,36 +1,44 @@
-import React  from 'react';
+import React, { useState, useEffect }  from 'react';
 import axios from 'axios';
 
-class ResourceList extends React.Component {
-  // this.state.resources is the all the record we fetch from the api
-  state = { resources: [] };
-  // we want to render todo posts as soon as we render app to our screen
-  // componentDidMount() only gets invoke once only
-  async componentDidMount() {
-    const response = await axios.get(`https://jsonplaceholder.typicode.com/${this.props.resource}`)
+// resource => string of `todos` or `posts` that we fetch
+const useResources = (resource) => {
 
-    // axios sets all response inside of `response.data` object
-    this.setState({ resources: response.data });
-  }
+};
 
-  // lifecycle method gets called any time component renders 
-  //  b/c of parent component or we `.setState` inside of class
-  //  based component
-  async componentDidUpdate(prevProps) {
-    // if previous props were not same as current props only then run
-    if (prevProps.resource !== this.props.resource) {
-      // prevProps obj that shows the what previous props were passed in
-      // console.log(prevProps);
-      const response = await axios.get(
-        `https://jsonplaceholder.typicode.com/${this.props.resource}`
-      );
-      this.setState({ resources: response.data });
-    }
-  }
+// destructuring out resource object from props
+//  {resource} => string of `todos` or `posts`
+const ResourceList = ({ resource }) => {
+  // `resources` has initial value of empty array utilizing `useState([])`
+  const [resources, setResources] = useState([]);
 
-  render() {
-    return <div>{this.state.resources.length}</div>;
-  }
+  // `useEffect()` runs only when `[resource]` array value has changed
+  //  once it is a different value `resource` the arrow function will run
+  //   `useEffect()` listens for changes
+  //   useEffect checks for prevProps and currentProps is different then runs
+  useEffect(
+    () => {
+      // immediately invoke function
+      // first pair of parenthesis is function definition
+      (async (resource) => {
+        const response = await axios.get(
+          `https://jsonplaceholder.typicode.com/${resource}`
+        );
+    
+        // axios sets all response inside of `response.data` object
+        setResources(response.data);
+      })(resource) // second pair of parenthesis is function invocation (calls the function)
+    },
+    [resource]
+  );
+
+  return (
+    <ul>
+      {resources.map(record => (
+        <li key={record.id}>{record.title}</li>
+      ))}
+    </ul>
+  );
 }
 
 export default ResourceList;
