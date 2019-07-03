@@ -1,21 +1,32 @@
-import React from 'react';
+// 1) import hook {useState} function
+import React, { useState } from 'react';
 
-class App extends React.Component {
-  state = { resource: 'posts' };
-  render() {
-    return (
+// 2) add arrow function
+const App = () => {
+  // 3) delete state initialization 
+  // state = { resource: 'posts' };
+  // 4) delete render() method {}
+
+  // 5) add useState
+  const [resource, setResource] = useState('posts');
+
+  return (
+    <div>
       <div>
-        <div>
-          {/* User clicks on posts vs Todos event listener listens to update the state resource object */}
-          <button onClick={() => this.setState({resource: 'posts'})}>Posts</button>
-          <button onClick={() => this.setState({resource: 'todos'})}>Todos</button>
-          <button>Todos</button>
-        </div>
-        {/* posts or todos are render here */}
-        {this.state.resource}
+        {/* 6) replace this.setState to setResource('posts') and do the same for todos */}
+        <button onClick={() => setResource('posts')}>
+          Posts
+        </button>
+        <button onClick={() => setResource('todos')}>
+          Todos
+        </button>
+
       </div>
-    );
-  }
+      {/* 7) delete `this.state.resource` add `resource` */}
+      {/* {this.state.resource} */}
+      {resource}
+    </div>
+  );
 }
 
 export default App;
