@@ -1,11 +1,14 @@
 import React, { useState } from 'react';
 import ResourceList from './ResourceList';
+import UserList from './UserList';
 
 const App = () => {
   const [resource, setResource] = useState('posts');
 
   return (
     <div>
+      List of Users:
+      <UserList />
       <div>
         <button onClick={() => setResource('posts')}>
           Posts
